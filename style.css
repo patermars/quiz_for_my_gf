@@ -1,59 +1,162 @@
+/* Add modern font and set base styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
+    font-family: 'Poppins', sans-serif;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px;
     text-align: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    color: #2c3e50;
 }
+
+h1 {
+    font-size: 3em;
+    margin-bottom: 40px;
+    color: #2c3e50;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .question {
-    font-size: 24px;
-    margin: 20px 0;
+    font-size: 28px;
+    margin: 30px 0;
+    padding: 15px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: #2c3e50;
+    font-weight: 600;
 }
+
 .image-container {
     display: flex;
     justify-content: space-around;
-    margin: 20px 0;
+    margin: 30px 0;
+    gap: 20px;
+    flex-wrap: wrap;
 }
+
 .choice {
     cursor: pointer;
-    padding: 10px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    transition: border-color 0.3s;
+    border: 3px solid #fff;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    flex: 0 1 auto;
+    position: relative;
+    overflow: hidden;
 }
+
 .choice:hover {
-    border-color: #999;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: #3498db;
 }
+
 img {
-    width: 300px;
-    height: 200px;
+    width: 350px;
+    height: 250px;
     object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
 }
+
+.choice:hover img {
+    transform: scale(1.05);
+}
+
 #result {
-    font-size: 24px;
-    margin: 20px 0;
-    min-height: 36px;
+    font-size: 28px;
+    margin: 25px 0;
+    min-height: 40px;
+    padding: 10px 20px;
+    display: inline-block;
+    border-radius: 10px;
+    animation: fadeIn 0.5s ease;
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 #next-button {
     display: none;
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #4CAF50;
+    padding: 15px 40px;
+    font-size: 20px;
+    background: linear-gradient(145deg, #3498db, #2980b9);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 30px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
+
 #next-button:hover {
-    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(145deg, #2980b9, #3498db);
 }
+
 #camera-container {
     display: none;
-    margin-top: 20px;
+    margin-top: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.5s ease;
 }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#camera-container h2 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
 #video {
-    width: 640px;
-    max-width: 100%;
-    border: 4px solid #ddd;
-    border-radius: 8px;
+    width: 100%;
+    max-width: 720px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    background: #f8f9fa;
+}
+
+/* Add responsive design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .question {
+        font-size: 22px;
+    }
+    
+    img {
+        width: 280px;
+        height: 200px;
+    }
+    
+    #next-button {
+        padding: 12px 30px;
+        font-size: 18px;
+    }
 }
