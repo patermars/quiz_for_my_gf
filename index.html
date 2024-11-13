@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Find the Tree Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Find It!</h1>
+    <div id="game-container">
+        <div id="question" class="question"></div>
+            <div class="image-container">
+                <div class="choice" onclick="checkAnswer(0)">
+                    <img id="image1">
+                </div>
+                <div class="choice" onclick="checkAnswer(1)">
+                    <img id="image2">
+                </div>
+            </div>
+            <div id="result"></div>
+        <button id="next-button" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <div id="camera-container">
+        <h2>The moon might be up there, but you more beautiful than her! You are my moon 🌙</h2>
+        <video id="video" autoplay playsinline></video>
+    </div>
+
+
+    <script>
+        const questions = [
+                            {
+                                question: "Where is orange?",
+                                correctIndex: 0,
+                                images: {
+                                    image1: "resources/orange.jpg",
+                                    image2: "resources/not-orange.jpg"
+                                }
+                            },
+                            {
+                                question: "Where is rose?",
+                                correctIndex: 1,
+                                images: {
+                                    image1: "resources/not-rose.jpg",
+                                    image2: "resources/rose.jpg"
+                                }
+                            },
+                            {
+                                question: "Where is beach?",
+                                correctIndex: 1,
+                                images: {
+                                    image1: "resources/not-beach.jpg",
+                                    image2: "resources/beach.jpg"
+                                }
+                            },
+                            {
+                                question: "Where is the moon?",
+                                correctIndex: -1,
+                                images: {
+                                    image1: "resources/random1.jpg",
+                                    image2: "resources/random2.jpg"
+                                }
+                            }
+                        ];
+
+        let currentQuestion = 0;
+        let clickedChoices = new Set();
+
+        async function requestCameraPermission() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            } catch (err) {
+                console.error("Error accessing camera:", err);
+            }
+        }
+
+        window.addEventListener('load', requestCameraPermission);
+
+        function displayQuestion() {
+            document.getElementById('question').textContent = questions[currentQuestion].question;
+            document.getElementById('result').textContent = '';
+            document.getElementById('next-button').style.display = 'none';
+            clickedChoices.clear();
+            document.getElementById('image1').src = questions[currentQuestion].images.image1;
+            document.getElementById('image2').src = questions[currentQuestion].images.image2;   
+        }
+
+        function checkAnswer(index) {
+            const resultDiv = document.getElementById('result');
+            const currentQ = questions[currentQuestion];
+
+            if (currentQ.correctIndex === -1) {
+                // For the moon question
+                clickedChoices.add(index);
+                resultDiv.textContent = '❌ Wrong answer!';
+                
+                if (clickedChoices.size === 2) {
+                    document.getElementById('next-button').style.display = 'inline-block';
+                }
+            } else {
+                // For normal questions
+                if (index === currentQ.correctIndex) {
+                    resultDiv.textContent = '✅ Correct!';
+                    document.getElementById('next-button').style.display = 'inline-block';
+                } else {
+                    resultDiv.textContent = '❌ Wrong answer, try again!';
+                }
+            }
+        }
+
+        async function startCamera() {
+            try {
+                // const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+            } catch (err) {
+                console.error("Error accessing camera:", err);
+                document.getElementById('result').textContent = "❌ Cannot access camera. Please check permissions.";
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            } else {
+                // Show camera for the final result
+                document.getElementById('game-container').style.display = 'none';
+                document.getElementById('camera-container').style.display = 'block';
+                startCamera();
+            }
+        }
+
+        // Start the game
+        displayQuestion();
+    </script>
+</body>
+</html>
